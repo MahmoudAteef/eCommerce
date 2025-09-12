@@ -1,0 +1,17 @@
+<div
+  class="w-full cursor-pointer active:scale-[99%] transtion-all duration-200 group"
+>
+  <img class="w-full"
+    [src]="product.imageCover"
+    alt=""
+  />
+  <Span class="text-green-500">{{product.category.name}}</Span>
+  <h2 class="text-lg capitalize mb-2 truncate" [title]="product.title">{{product.title}}</h2>
+  <div class="flex justify-between items-center">
+    <span>{{product.price}} EGP</span>
+    <span class="text-gray-500"
+      ><i class="fa fa-star text-yellow-400"></i>{{product.ratingsAverage}}</span
+    >
+  </div>
+  <button class="w-full bg-green-500 py-1.5 cursor-pointer rounded text-white opacity-0 group-hover:opacity-100 transtion-all duration-200 translate-y-8 group-hover:translate-y-0">Add to Cart</button>
+</div>

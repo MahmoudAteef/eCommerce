@@ -1,0 +1,21 @@
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4  xl:grid-cols-6 gap-3">
+  
+@if(isLoading){
+  <!-- <i class="fa fa-spinner fa-spin"></i> -->
+   @for (item of [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]; track $index) {
+
+    <div class="">
+       <div class="h-60 animate-pulse rounded bg-gray-400"></div>
+  <div class="h-4 bg-gray-400 mt-2 w-20"></div>
+  <div class="h-4 bg-gray-400 mt-2 w-40"></div>
+    </div>
+   }
+}@else{
+    @for (product of products; track $index) {
+     <app-product-card [product]="product"></app-product-card>
+  } 
+}
+
+
+</div>
+
