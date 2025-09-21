@@ -1,7 +1,7 @@
-export interface Response {
+export interface Response<T> {
   results: number
   metadata: Metadata
-  data: Product[]
+  data: T[]
 }
 
 export interface Metadata {
@@ -31,6 +31,7 @@ export interface Product {
   id: string
   priceAfterDiscount?: number
   availableColors?: string[]
+  inWishlist?: boolean;
 }
 
 export interface Subcategory {
@@ -53,3 +54,26 @@ export interface Brand {
   slug: string
   image: string
 }
+
+
+export interface CartResponse {
+  status: string
+  numOfCartItems: number
+  cartId: string
+  data: Data
+}
+
+export interface Data {
+  _id: string
+  userId: string
+  products: ProductCart[]
+  totalCartPrice: number
+}
+
+export interface ProductCart {
+  count: number
+  _id: string
+  product: Product
+  price: number
+}
+

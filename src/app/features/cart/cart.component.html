@@ -1,1 +1,95 @@
-<p>cart works!</p>
+<div class="my-5">
+  @if(isLoading){
+    <div class="flex justify-center">
+        <app-cart-loader></app-cart-loader>
+    </div>
+  }@else {
+    <div class="bg-gray-100 p-6 rounded-lg shadow-lg">
+      <div class="flex flex-col md:flex-row justify-between items-center mb-4">
+        <h1 class="font-semibold text-4xl mb-2 md:mb-0">Shop Cart</h1>
+
+        @if(cartData?.numOfCartItems){
+        <div class="flex items-center gap-4">
+          <span class="text-green-600 font-semibold text-xl">Total: {{cartData?.data?.totalCartPrice}} EGP</span>
+          <button (click)="isAddressFormOpen = true" class="cursor-pointer bg-sky-500 hover:bg-sky-600 text-white font-semibold px-5 py-2 rounded-lg transition transform active:scale-95">
+            Checkout
+          </button>
+        </div>
+        }
+      </div>
+
+      @for (item of cartData?.data?.products; track $index; let i = $index) {
+      <div class="flex flex-col md:flex-row items-center justify-between bg-white p-4 rounded-lg mb-4 shadow-sm hover:shadow-md transition">
+        <div class="w-24 h-24 flex-shrink-0 mb-3 md:mb-0">
+          <img [src]="item.product.imageCover" alt="" class="w-full h-full object-cover rounded">
+        </div>
+
+        <div class="flex-1 md:ml-4 flex flex-col md:flex-row justify-between items-center gap-3">
+          <div class="space-y-1 text-center md:text-left">
+            <p class="font-medium">{{item.product.title}}</p>
+            <span class="text-green-500 block">Price: {{item.price}} EGP</span>
+                <span class="text-gray-700 block">Subtotal: {{item.price * item.count}} EGP</span>
+            <button (click)="deleteProduct(item.product._id)" class="flex gap-1 items-center text-red-500 hover:text-red-600 cursor-pointer">
+              <i class="fa fa-trash"></i> Remove
+            </button>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <button [disabled]="updateLoading && currentIndex == i" (click)="updateProductCount(item.product._id ,item.count + 1,i)" class="w-8 h-8 flex justify-center items-center rounded border border-green-500 text-green-500 hover:bg-green-50 cursor-pointer">
+              @if (updateLoading && currentIndex ==i) {
+                <i class="fa-solid fa-spinner fa-spin text-xs"></i>
+              }@else {
+                <i class="fa-solid fa-plus text-xs"></i>
+              }
+            </button>
+
+            <span class="font-medium">{{item.count}}</span>
+
+            <button [disabled]="updateLoading && currentIndex == i" (click)="updateProductCount(item.product._id ,item.count - 1,i)" class="w-8 h-8 flex justify-center items-center rounded border border-green-500 text-green-500 hover:bg-green-50 cursor-pointer">
+              @if (updateLoading && currentIndex ==i) {
+                <i class="fa-solid fa-spinner fa-spin text-xs"></i>
+              }@else {
+                <i class="fa-solid fa-minus text-xs"></i>
+              }
+            </button>
+          </div>
+        </div>
+      </div>
+      } @empty {
+      <div class="text-center py-8">
+        <p class="text-gray-500 text-lg">Your cart is empty</p>
+      </div>
+      }
+
+      @if(cartData?.numOfCartItems){
+      <div class="flex justify-end gap-3 mt-4">
+        <button (click)="clearCart()" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg active:scale-95 transition cursor-pointer">
+          Clear Cart
+        </button>
+      </div>
+      }
+    </div>
+  }
+</div>
+
+<div [class.!flex]="isAddressFormOpen" class="hidden fixed inset-0 bg-black/70 justify-center items-center z-50">
+  <form (ngSubmit)="checkoutSession()" [formGroup]="addressForm" class="max-w-lg w-full bg-white p-6 rounded-lg shadow-lg">
+    <h2 class="text-2xl font-semibold mb-4">Address Form</h2>
+
+    <div class="mb-4">
+      <input formControlName="details" type="text" placeholder="Address" class="w-full border-b-2 border-gray-300 py-2 px-1 focus:border-green-500 focus:outline-none cursor-pointer" required>
+    </div>
+
+    <div class="mb-4">
+      <input formControlName="phone" type="tel" placeholder="Phone" class="w-full border-b-2 border-gray-300 py-2 px-1 focus:border-green-500 focus:outline-none cursor-pointer" required>
+    </div>
+
+    <div class="mb-6">
+      <input formControlName="city" type="text" placeholder="City" class="w-full border-b-2 border-gray-300 py-2 px-1 focus:border-green-500 focus:outline-none cursor-pointer" required>
+    </div>
+
+    <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-2 rounded-lg transition transform active:scale-95 cursor-pointer">
+      Submit
+    </button>
+  </form>
+</div>

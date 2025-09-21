@@ -1,1 +1,43 @@
-<p>categories works!</p>
+<div class="container mx-auto">
+      <h1 class="text-center text-4xl font-semibold text-main py-7">All Categories</h1>
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+    @if(!categories || categories.length === 0){
+
+    @for (item of [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]; track $index) {
+    <div class="max-w-sm bg-gray-200 border border-gray-300 rounded-lg 
+         dark:bg-gray-700 dark:border-gray-600 overflow-hidden 
+         h-[400px] flex flex-col animate-pulse">
+      <div class="w-full h-[300px] bg-gray-300"></div>
+      <div class="flex flex-1 items-center justify-center">
+        <div class="h-6 bg-gray-300 rounded w-3/4 mx-auto"></div>
+      </div>
+
+    </div>
+
+
+    }
+    }@else {
+    @for (category of categories; track category._id) {
+    <div class="max-w-sm bg-white border border-gray-200 rounded-lg 
+               dark:bg-gray-800 dark:border-gray-700 overflow-hidden 
+               h-[400px] flex flex-col 
+               transition duration-300 hover:shadow-lg hover:shadow-green-500/50">
+
+      <a href="#">
+        <img class="w-full h-[300px] object-cover" [src]="category.image" [alt]="category.name"
+          [title]="category.name" />
+      </a>
+
+      <div class="flex flex-1 items-center justify-center">
+        <a href="#">
+          <h5 class="text-xl font-bold tracking-tight text-green-500 dark:text-white text-center">
+            {{ category.name }}
+          </h5>
+        </a>
+      </div>
+
+    </div>
+    }
+    }
+  </div>
+</div>

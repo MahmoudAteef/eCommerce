@@ -1,7 +1,9 @@
+import { CartService } from './../../../core/services/cart.service';
 import { initFlowbite } from 'flowbite';
 import { FlowbiteService } from './../../../core/services/flowbite.service';
 import { Component, OnInit } from '@angular/core';
 import { RouterLink, RouterLinkActive } from "@angular/router";
+import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
   selector: 'app-navbar',
@@ -10,29 +12,44 @@ import { RouterLink, RouterLinkActive } from "@angular/router";
   styleUrl: './navbar.component.css'
 })
 export class NavbarComponent implements OnInit{
+  cartCount=0;
+  localIsLogin = false;  
+  isLogin = false;
 
   pages:{title:string,path:string}[]=[
     {path:'home',title:'Home'},
     {path:'products',title:'Products'},
-    {path:'categoires',title:'Categoires'},
+    {path:'categories',title:'Categories'},
     {path:'brands',title:'Brands'},
-    {path:'cart',title:'Cart'}
+    {path:'wishlist',title:'Wishlist'}
   ]
 
     authPages:{title:string,path:string}[]=[
-    {path:'login',title:'Login'},
-    {path:'register',title:'Register'},
+    {path:'/login',title:'Login'},
+    {path:'/register',title:'Register'},
   ]
-    constructor(private FlowbiteService: FlowbiteService) {}
+    constructor(private FlowbiteService: FlowbiteService, private authService : AuthService,private cartService: CartService) {
+          authService.isLogin.subscribe({
+            next:(isLogin) => {
+              console.log({isLogin} ,'navbar')
+              this.localIsLogin = isLogin;
+            }
+    })
+    }
+ngOnInit(): void {
+  this.FlowbiteService.loadFlowbite((flowbite) => {
+    initFlowbite();
+  });
 
-  ngOnInit(): void {
-    this.FlowbiteService.loadFlowbite((flowbite) => {
-      initFlowbite();
-    });
-  }
+  this.cartService.cartCount$.subscribe(count => {
+    this.cartCount = count;
+  });
 
-  logOut(){
+  this.cartService.getUserCart().subscribe();
+}
 
-  }
+logOut() {
+  this.authService.logOut();
+}
 
 }

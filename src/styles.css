@@ -3,3 +3,28 @@
 @import "flowbite/src/themes/default";
 @plugin "flowbite/plugin";
 @source "../node_modules/flowbite";
+
+
+@theme{
+    --color-main: #39bb39;
+}
+
+@layer compenetns{
+    .active {
+        @apply !text-green-500 !font-extrabold;
+    }
+}
+
+.ngx-pagination .current {
+    background-color: #059669 !important;
+}
+
+
+
+:root {
+	--hue: 223;
+	--bg: white;
+	--fg: red;
+	--primary: green;
+	--trans-dur: 0.3s;
+}
